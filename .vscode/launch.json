@@ -7,7 +7,8 @@
         "request": "launch",
         "preLaunchTask": "npm: start",
         "url": "http://localhost:4200/",
-        "webRoot": "${workspaceFolder}"
+        "webRoot": "${workspaceFolder}",
+        "internalConsoleOptions": "openOnSessionStart"
       },
       {
         "name": "ng test",
