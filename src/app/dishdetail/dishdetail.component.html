@@ -29,12 +29,14 @@
         <button mat-button [routerLink]="['/dishdetail', next]"><span class="fa fa-chevron-right fa-lg"></span></button>
       </mat-card-actions>
     </mat-card>
-    <div [hidden]="dish">
+
+    <div [hidden]="dish || errMess">
       <mat-spinner></mat-spinner><h4>Loading... Please Wait</h4>
     </div>
+
   </div>
 
-  <div fxFlex="40" class="form-size">
+  <div fxFlex="40">
     <mat-card *ngIf="dish">
       <mat-card-header>
         <mat-card-title>
@@ -61,6 +63,7 @@
     </mat-card>
 
     <mat-divider></mat-divider>
+
     <mat-card *ngIf="dish">
       <mat-card-header>
         <mat-card-title>
@@ -93,8 +96,13 @@
       </mat-card-content>
     </mat-card>
 
-    <div [hidden]="dish">
+    <div [hidden]="dish || errMess">
       <mat-spinner></mat-spinner><h4>Loading... Please Wait</h4>
     </div>
+  </div>
+
+  <div fxFlex *ngIf="errMess">
+    <h2>Error</h2>
+    <h4>{{errMess}}</h4>
   </div>
 </div>

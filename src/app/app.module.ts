@@ -43,6 +43,7 @@ import { LoginComponent } from './login/login.component';
 import { DishService } from './services/dish.service';
 import { PromotionService } from './services/promotion.service';
 import { LeaderService } from './services/leader.service';
+import { ProcessHTTPMsgService } from './services/process-httpmsg.service';
 
 @NgModule({
   declarations: [
@@ -83,7 +84,8 @@ import { LeaderService } from './services/leader.service';
     DishService,
     PromotionService,
     LeaderService,
-    {provide: 'BaseURL', useValue: baseURL}
+    {provide: 'BaseURL', useValue: baseURL},
+    ProcessHTTPMsgService
   ],
   bootstrap: [AppComponent]
 })

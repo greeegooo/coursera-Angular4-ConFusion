@@ -25,6 +25,7 @@ export class DishdetailComponent implements OnInit {
   rating: FormControl = new FormControl(5);
   comment: FormControl = new FormControl('', [Validators.required]);
   commentModel: Comment;
+  errMess: string;
 
   formErrors = {
     'author': '',
@@ -51,7 +52,10 @@ export class DishdetailComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.dishService.getDishIds().subscribe(dishIds => this.dishIds = dishIds);
+    this.dishService.getDishIds()
+    .subscribe(
+      dishIds => this.dishIds = dishIds,
+      errmess => this.errMess = <any>errmess);
     
     this.route.params
     .pipe(switchMap((params: Params) => this.dishService.getDish(params['id'])))
