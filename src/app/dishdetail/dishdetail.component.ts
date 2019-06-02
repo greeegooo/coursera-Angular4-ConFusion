@@ -4,7 +4,7 @@ import { DishService } from '../services/dish.service';
 import { Params, ActivatedRoute } from '@angular/router';
 import { Location } from '@angular/common';
 import { switchMap } from 'rxjs/operators';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormControl } from '@angular/forms';
 import { Comment } from '../shared/comment';
 
 @Component({
@@ -21,8 +21,11 @@ export class DishdetailComponent implements OnInit {
   prev: string;
   next: string;
   commentForm: FormGroup;
-  comment: Comment;
-  
+  author: FormControl = new FormControl('', [Validators.required, Validators.minLength(2)]);
+  rating: FormControl = new FormControl(5);
+  comment: FormControl = new FormControl('', [Validators.required]);
+  commentModel: Comment;
+
   formErrors = {
     'author': '',
     'comment': ''
@@ -30,11 +33,11 @@ export class DishdetailComponent implements OnInit {
 
   validationMessages = {
     'author': {
-      'required':      'First Name is required.',
-      'minlength':     'First Name must be at least 2 characters long.',
+      'required':   'Name is required.',
+      'minlength':  'Name must be at least 2 characters long.',
     },
     'comment': {
-      'required':      'Last Name is required.',
+      'required':   'Comment is required.',
     },
   };
 
@@ -43,7 +46,6 @@ export class DishdetailComponent implements OnInit {
     private route: ActivatedRoute, 
     private location: Location,
     private fb: FormBuilder) { 
-    this.initComment();
     this.createForm();
   }
 
@@ -65,15 +67,12 @@ export class DishdetailComponent implements OnInit {
     this.next = this.dishIds[(this.dishIds.length + index + 1) % this.dishIds.length];
   }
 
-  initComment(){
-    this.comment = new Comment();
-    this.comment.rating = 5;
-  }
   createForm(){
+
     this.commentForm = this.fb.group({
-      author: [this.comment.author, [Validators.required, Validators.minLength(2)] ],
-      comment: [this.comment.comment, [Validators.required] ],
-      rating: [this.comment.rating, []]
+      author: this.author,
+      comment: this.comment,
+      rating: this.rating
     });
 
     this.commentForm.valueChanges
@@ -103,13 +102,11 @@ export class DishdetailComponent implements OnInit {
   }
 
   onSubmit() {
-    this.comment = this.commentForm.value;
-    console.log(this.comment);
-    this.commentForm.reset({
-      author: ['', [Validators.required, Validators.minLength(2)] ],
-      comment: ['', [Validators.required] ],
-      rating: [5, []]
-    });
+    this.commentModel = this.commentForm.value;
+    this.commentModel.date = Date.now().toString();
+    this.dish.comments.push(this.commentModel);
+
     this.commentFormDirective.resetForm();
+    this.commentForm.setValue({author:'', rating: 5, comment: ''});
   }
 }
