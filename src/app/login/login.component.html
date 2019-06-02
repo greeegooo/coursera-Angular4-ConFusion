@@ -15,7 +15,7 @@
       </mat-form-field>
 
       <mat-form-field>
-        <input matInput placeholder="Password" type="password" [(ngModel)]="user.password" name="password" #username="ngModel" required>
+        <input matInput placeholder="Password" type="password" [(ngModel)]="user.password" name="password" #password="ngModel" required>
         <mat-error *ngIf="password.errors?.required">Password is required</mat-error>
       </mat-form-field>
 
